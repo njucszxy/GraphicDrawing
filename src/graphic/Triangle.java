@@ -29,6 +29,8 @@ public class Triangle extends Graphic {
         points.add(new Point(triangle.points.get(0)));
         points.add(new Point(triangle.points.get(1)));
         points.add(new Point(triangle.points.get(2)));
+        if(triangle.getText() != null)
+            this.addText(new String(triangle.getText()));
     }
     public Triangle(Triangle triangle,Point point)
     {
@@ -36,14 +38,18 @@ public class Triangle extends Graphic {
         if(triangle.points.size() != 3)
             assert false;
         points.add(new Point(point));
-        points.add(new Point(point.row + 50,point.column - 25));
-        points.add(new Point(point.row + 50,point.column + 25));
+        points.add(new Point(point.row + triangle.points.get(1).row - triangle.points.get(0).row,point.column + triangle.points.get(1).column - triangle.points.get(0).column));
+        points.add(new Point(point.row + triangle.points.get(2).row - triangle.points.get(0).row,point.column + triangle.points.get(2).column - triangle.points.get(0).column));
+        if(triangle.getText() != null)
+            this.addText(new String(triangle.getText()));
     }
     public Triangle(Triangle triangle,Point beginPoint,Point endPoint)
     {
         points = new ArrayList<>();
         if(triangle.points.size() != 3)
             assert false;
+        if(triangle.getText() != null)
+            this.addText(new String(triangle.getText()));
         int rePoint = triangle.getResizablePoint();
         if(rePoint == 1)
         {
@@ -69,6 +75,8 @@ public class Triangle extends Graphic {
         points = new ArrayList<>();
         if(triangle.points.size() != 3)
             assert false;
+        if(triangle.getText() != null)
+            this.addText(new String(triangle.getText()));
         points.add(new Point(triangle.points.get(0).row + xOffset,triangle.points.get(0).column + yOffset));
         points.add(new Point(triangle.points.get(1).row + xOffset,triangle.points.get(1).column + yOffset));
         points.add(new Point(triangle.points.get(2).row + xOffset,triangle.points.get(2).column + yOffset));
@@ -89,7 +97,6 @@ public class Triangle extends Graphic {
         if(points.size() != 3)
             assert false;
         //draw triangle
-        //System.out.println("draw triangle");
         gc.setFill(Controller.graphicColor);
         gc.strokeLine(points.get(0).row,points.get(0).column,points.get(1).row,points.get(1).column);
         gc.strokeLine(points.get(1).row,points.get(1).column,points.get(2).row,points.get(2).column);

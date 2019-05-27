@@ -22,18 +22,24 @@ public class Oval extends Graphic {
         this.upperLeft = new Point(oval.upperLeft);
         this.a = oval.a;
         this.b = oval.b;
+        if(oval.getText() != null)
+            this.addText(new String(oval.getText()));
     }
     public Oval(Oval oval,Point point)
     {
         this.upperLeft = new Point(point);
         this.a = oval.a;
         this.b = oval.b;
+        if(oval.getText() != null)
+            this.addText(new String(oval.getText()));
     }
     public Oval(Oval oval,Point beginPoint,Point endPoint)
     {
         this.upperLeft = new Point(oval.upperLeft);
         this.a = oval.a;
         this.b = oval.b;
+        if(oval.getText() != null)
+            this.addText(new String(oval.getText()));
         Rate rate = new Rate(beginPoint,endPoint);
         if(rate.xRate > 0)
             this.a = this.a * rate.xRate;
@@ -49,6 +55,8 @@ public class Oval extends Graphic {
         this.upperLeft = new Point(oval.upperLeft.row+xOffset,oval.upperLeft.column+yOffset);
         this.a = oval.a;
         this.b = oval.b;
+        if(oval.getText() != null)
+            this.addText(new String(oval.getText()));
     }
     @Override
     public void draw(GraphicsContext gc)
@@ -63,7 +71,6 @@ public class Oval extends Graphic {
             upperLeft = new Point(0,0);
         }
         //draw oval
-        //System.out.println("draw oval");
         gc.setFill(Controller.graphicColor);
         gc.strokeOval(upperLeft.row,upperLeft.column,2*a,2*b);
         gc.strokeText(this.getText(),upperLeft.row,upperLeft.column);

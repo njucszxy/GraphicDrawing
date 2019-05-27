@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
+    //GUI units
     @FXML
     Canvas canvas;
     @FXML
@@ -41,79 +42,32 @@ public class Controller {
     @FXML
     Button buttonUndo;
 
-    //operate
+    //state machine
     private int currentMode = -1;       //-1:NULL   0:button to draw    1:specific graphic  2:canvas    3:combine   4:copy  5:resize    6:move
-    //private int currentButton = -1;     //-1:NULL   else:button id
     private Graphic currentGraphic = null;    //-1:NULL   else:graphic id
+    //private Graphic pastGraphic = null;       //-1:NULL   else:graphic id
     private Point currentPoint = null;  //null:NULL else:canvas point
-    //private boolean currentCombine = false;     //false:no combine  true:combine currentGraphic and next currentGraphic
     private List<SingleOperation> singleOperations = new ArrayList<>();//-1:undefined  0:paint  1:add text  2:paste    3:combine
     private Point beginPoint = null;
     private Point endPoint = null;
-    //draw
+    //draw on canvas
     public static final Color graphicColor = Color.web("#000000");
     public static final Color backgroundColor = Color.web("#FFF8DC");
     private GraphicsContext gc;
-    private Stage primaryStage;
+    private Stage primaryStage;     //for interface jump
     private GraphicManager graphicManager;
 
     public void initController(Stage primaryStage)
     {
-        //if(canvas == null)
-        //    System.out.println("null canvas");
         gc = canvas.getGraphicsContext2D();
         graphicManager = new GraphicManager();
-        /*
-        canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                //System.out.println("Detect Mouse click on canvas");
-                Graphic pastGraphic = currentGraphic;
-                if(testMouseClicked(event.getX(),event.getY()))
-                {
-                    if(currentMode == 3)
-                    {
-                        //combine
-                        Graphic graphic1 = pastGraphic;
-                        Graphic graphic2 = currentGraphic;
-                        if(graphic1 != graphic2) {
-                            Graphic newGraphic = graphic1.cooperate(graphic2);
-                            graphicManager.deleteGraphic(graphic1);
-                            graphicManager.deleteGraphic(graphic2);
-                            graphicManager.addGraphic(newGraphic);
-                            currentGraphic = newGraphic;
-
-                            recordCombine(graphic1,graphic2,newGraphic);
-                        }
-                    }
-                    currentMode = 1;
-                    System.out.println("Select " + currentGraphic.toString());
-                    //currentGraphic = getMouseClicked(event.getX(),event.getY());
-                }
-                else {
-                    if(currentMode == 4)
-                    {
-                        //paste
-                        Graphic newGraphic = currentGraphic.getCopy(new Point(event.getX(),event.getY()));
-                        graphicManager.addGraphic(newGraphic);
-                        recordPaste(newGraphic);
-                        currentGraphic = newGraphic;
-                        currentMode = 1;
-                        System.out.println("Select " + currentGraphic.toString());
-                        refreshCanvas();
-                    }
-                    else {
-                        currentMode = 2;
-                        currentPoint = new Point(event.getX(), event.getY());
-                    }
-                }
-                refreshCanvas();
-            }
-        });
-        */
+        //set response function
         canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                //pastGraphic = currentGraphic;
+                if(currentMode == 3)
+                    return;
                 if(testMouseClicked(event.getX(),event.getY()))
                 {
                     if(currentGraphic.isOnResizable(new Point(event.getX(),event.getY())))
@@ -154,7 +108,6 @@ public class Controller {
                     }
                     currentMode = 1;
                     System.out.println("Select " + currentGraphic.toString());
-                    //currentGraphic = getMouseClicked(event.getX(),event.getY());
                 }
                 else {
                     if(currentMode == 4)
@@ -215,7 +168,6 @@ public class Controller {
                     recordPaint(paintGraphic);
                 }
                 currentMode = 0;
-                //currentButton = 0;
                 refreshCanvas();
             }
         });
@@ -229,7 +181,6 @@ public class Controller {
                     recordPaint(paintGraphic);
                 }
                 currentMode = 0;
-                //currentButton = 1;
                 refreshCanvas();
             }
         });
@@ -243,7 +194,6 @@ public class Controller {
                     recordPaint(paintGraphic);
                 }
                 currentMode = 0;
-                //currentButton = 2;
                 refreshCanvas();
             }
         });
@@ -257,7 +207,6 @@ public class Controller {
                     recordPaint(paintGraphic);
                 }
                 currentMode = 0;
-                //currentButton = 3;
                 refreshCanvas();
             }
         });
@@ -271,7 +220,6 @@ public class Controller {
                     recordPaint(paintGraphic);
                 }
                 currentMode = 0;
-                //currentButton = 4;
                 refreshCanvas();
             }
         });
@@ -292,7 +240,7 @@ public class Controller {
             public void handle(MouseEvent event) {
                 if(currentMode == 1)
                 {
-                    //currentCombine = true;
+                    //combine
                     currentMode = 3;
                 }
             }
@@ -310,6 +258,7 @@ public class Controller {
         buttonUndo.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                //undo
                 undoSingleOperation();
             }
         });

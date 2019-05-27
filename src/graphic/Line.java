@@ -14,8 +14,6 @@ public class Line extends Graphic {
     public Line()
     {
         points = new ArrayList<>();
-        //points.add(new Point());    //point 1
-        //points.add(new Point());    //point 2
     }
     public Line(Line line)
     {
@@ -24,6 +22,8 @@ public class Line extends Graphic {
             assert false;
         points.add(new Point(line.points.get(0)));
         points.add(new Point(line.points.get(1)));
+        if(line.getText() != null)
+            this.addText(new String(line.getText()));
     }
     public Line(Line line,Point point)
     {
@@ -31,13 +31,17 @@ public class Line extends Graphic {
         if(line.points.size() != 2)
             assert false;
         points.add(new Point(point));
-        points.add(new Point(point.row+50,point.column - 50));
+        points.add(new Point(point.row+line.points.get(1).row - line.points.get(0).row,point.column + line.points.get(1).column - line.points.get(0).column));
+        if(line.getText() != null)
+            this.addText(new String(line.getText()));
     }
     public Line(Line line,Point beginPoint,Point endPoint)
     {
         points = new ArrayList<>();
         if(line.points.size() != 2)
             assert false;
+        if(line.getText() != null)
+            this.addText(new String(line.getText()));
         int rePoint = line.getResizablePoint();
         if(rePoint == 1)
         {
@@ -63,6 +67,8 @@ public class Line extends Graphic {
             assert false;
         points.add(new Point(line.points.get(0).row + xOffset,line.points.get(0).column + yOffset));
         points.add(new Point(line.points.get(1).row + xOffset,line.points.get(1).column + yOffset));
+        if(line.getText() != null)
+            this.addText(new String(line.getText()));
     }
     @Override
     public void draw(GraphicsContext gc)
@@ -79,7 +85,6 @@ public class Line extends Graphic {
         if(points.size() != 2)
             assert false;
         //draw line
-        //System.out.println("draw line");
         gc.setFill(Controller.graphicColor);
         gc.strokeLine(points.get(0).row,points.get(0).column,points.get(1).row,points.get(1).column);
         gc.strokeText(this.getText(),points.get(0).row,points.get(0).column);

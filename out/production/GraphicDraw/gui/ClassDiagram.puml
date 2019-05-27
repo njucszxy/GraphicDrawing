@@ -1,0 +1,185 @@
+@startuml
+
+abstract class Graphic
+class CombinedGraphic
+class GraphicManager
+class Point
+class Line
+class Oval
+class Rectangle
+class Round
+class Triangle
+
+class Controller
+class Main
+
+class Info
+class Math
+class Rate
+class SingleOperation
+
+Main o-- Controller
+Controller o-- GraphicManager
+Controller -- Graphic
+Controller --> Info
+Controller o-- SingleOperation
+GraphicManager o-- Graphic
+Graphic o-- Point
+Graphic <|-- Line
+Graphic <|-- Oval
+Graphic <|-- Rectangle
+Graphic <|-- Round
+Graphic <|-- Triangle
+Graphic <|-- CombinedGraphic
+Graphic --> Math
+Graphic --> Info
+Graphic --> Rate
+
+class Main{
+    start(Stage):void
+    main(String[]):void
+}
+class Controller{
+    currentMode:int
+    currentGraphic:Graphic
+    currentPoint:Point
+    singleOperations:List<SingleOperation>
+    beginPoint:Point
+    endPoint:Point
+    graphicManager:GraphicManager
+    initController(Stage):void
+    refreshCanvas():void
+    testMouseClicked(double,double):boolean
+    recordPaint(Graphic):void
+    recordText(Graphic):void
+    recordPaste(Graphic):void
+    recordCombine(Graphic,Graphic,Graphic):void
+    recordResize(Graphic,Graphic):void
+    recordMove(Graphic,Graphic):void
+    undoSingleOperation():void
+}
+class Info{
+    SceneWidth:int
+    SceneHeight:int
+    CanvasWidth:int
+    CanvasHeight:int
+}
+class Math{
+    minDistancePointToPoint(Point,Point):double
+    minDistancePointToLine(Point,Point,Point):double
+    minDistancePointToRound(Point,double,Point):double
+    minDistancePointToOval(Point,double,double,Point):double
+}
+class Rate{
+    xRate = -1:double
+    yRate = -1:double
+}
+class SingleOperation{
+    operationMode:int
+    paintGraphic:Graphic
+    textGraphic:Graphic
+    pasteGraphic:Graphic
+    combineGraphic1:Graphic
+    combineGraphic2:Graphic
+    afterCombineGraphic:Graphic
+    oldGraphic:Graphic
+    resizeGraphic:Graphic
+    beforeGraphic:Graphic
+    moveGraphic:Graphic
+}
+class Graphic{
+    draw(GraphicsContext):void
+    addText(String):void
+    setCombination():void
+    getCombination():boolean
+    getText():String
+    cooperate(Graphic):Graphic
+    getCopy(Point):Graphic
+    isOnMe(double,double):boolean
+    clearText():void
+    isOnResizable(Point):boolean
+    getResize(Point,Point):Graphic
+    getResizablePoint():int
+    getMove(Point,Point):Graphic
+    text:Stirng
+    gc:GraphicsContext
+    isCombination:boolean
+    resizablePoint:int
+}
+class Line{
+    points:List<Point>
+    draw(GraphicsContext):void
+    getCopy(Point):Graphic
+    isOnMe(double,double):boolean
+    toString():String
+    isOnResizable(Point):boolean
+    getResize(Point,Point):Graphic
+    getMove(Point,Point):Graphic
+}
+class Oval{
+    upperLeft：Point
+    a:double
+    b:double
+    draw(GraphicsContext):void
+    getCopy(Point):Graphic
+    isOnMe(double,double):boolean
+    toString():String
+    isOnResizable(Point):boolean
+    getResize(Point,Point):Graphic
+    getMove(Point,Point):Graphic
+}
+class Rectangle{
+    upperLeft：Point
+    width:double
+    height:double
+    draw(GraphicsContext):void
+    getCopy(Point):Graphic
+    isOnMe(double,double):boolean
+    toString():String
+    isOnResizable(Point):boolean
+    getResize(Point,Point):Graphic
+    getMove(Point,Point):Graphic
+}
+class Round{
+    upperLeft：Point
+    radius:double
+    draw(GraphicsContext):void
+    getCopy(Point):Graphic
+    isOnMe(double,double):boolean
+    toString():String
+    isOnResizable(Point):boolean
+    getResize(Point,Point):Graphic
+    getMove(Point,Point):Graphic
+}
+class Triangle{
+    points:List<Point>
+    draw(GraphicsContext):void
+    getCopy(Point):Graphic
+    isOnMe(double,double):boolean
+    toString():String
+    isOnResizable(Point):boolean
+    getResize(Point,Point):Graphic
+    getMove(Point,Point):Graphic
+}
+class Point{
+    row:double
+    column:double
+}
+class CombinedGraphic{
+    graphics:List<Graphic>
+    draw(GraphicsContext):void
+    getCopy(Point):Graphic
+    isOnMe(double,double):boolean
+    toString():String
+    isOnResizable(Point):boolean
+    getResize(Point,Point):Graphic
+    getMove(Point,Point):Graphic
+}
+class GraphicManager{
+    graphics:List<Graphic>
+    addGraphic(Graphic):void
+    deleteGraphic(Graphic):void
+    getSize():int
+    getGraphic(int):Graphic
+}
+@enduml

@@ -19,16 +19,22 @@ public class Round extends Graphic {
     {
         this.upperLeft = new Point(round.upperLeft);
         this.radius = round.radius;
+        if(round.getText() != null)
+            this.addText(new String(round.getText()));
     }
     public Round(Round round,Point point)
     {
         this.upperLeft = new Point(point);
         this.radius = round.radius;
+        if(round.getText() != null)
+            this.addText(new String(round.getText()));
     }
     public Round(Round round,Point beginPoint,Point endPoint)
     {
         this.upperLeft = new Point(round.upperLeft);
         this.radius = round.radius;
+        if(round.getText() != null)
+            this.addText(new String(round.getText()));
         Rate rate = new Rate(beginPoint,endPoint);
         if(rate.xRate > 0)
             this.radius = this.radius * rate.xRate;
@@ -39,6 +45,8 @@ public class Round extends Graphic {
     {
         this.upperLeft = new Point(round.upperLeft.row+xOffset,round.upperLeft.column+yOffset);
         this.radius = round.radius;
+        if(round.getText() != null)
+            this.addText(new String(round.getText()));
     }
     @Override
     public void draw(GraphicsContext gc)
@@ -52,7 +60,6 @@ public class Round extends Graphic {
             upperLeft = new Point(0,0);
         }
         //draw round
-        //System.out.println("draw round");
         gc.setFill(Controller.graphicColor);
         gc.strokeOval(upperLeft.row,upperLeft.column,2*radius,2*radius);
         gc.strokeText(this.getText(),upperLeft.row,upperLeft.column);

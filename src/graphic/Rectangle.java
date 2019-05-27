@@ -25,21 +25,24 @@ public class Rectangle extends Graphic {
         this.upperLeft = new Point(rectangle.upperLeft);
         this.width = rectangle.width;
         this.height = rectangle.height;
+        if(rectangle.getText() != null)
+            this.addText(new String(rectangle.getText()));
     }
     public Rectangle(Rectangle rectangle,Point point)
     {
         this.upperLeft = new Point(point);
         this.width = rectangle.width;
         this.height = rectangle.height;
+        if(rectangle.getText() != null)
+            this.addText(new String(rectangle.getText()));
     }
     public Rectangle(Rectangle rectangle,Point beginPoint,Point endPoint)
     {
         this.upperLeft = new Point(rectangle.upperLeft);
         this.width = rectangle.width;
         this.height = rectangle.height;
-
-        //System.out.println("before width:" + width);
-        //System.out.println("before height:" + height);
+        if(rectangle.getText() != null)
+            this.addText(new String(rectangle.getText()));
 
         Rate rate = new Rate(beginPoint,endPoint);
         if(rate.xRate > 0)
@@ -50,18 +53,14 @@ public class Rectangle extends Graphic {
             this.height = this.height * rate.yRate;
         else
             this.height = this.height / java.lang.Math.abs(rate.yRate);
-
-        //System.out.println("after width:" + width);
-        //System.out.println("after height:" + height);
-
-        //this.width = rectangle.width*2;
-        //this.height = rectangle.height*2;
     }
     public Rectangle(Rectangle rectangle,double xOffset,double yOffset)
     {
         this.upperLeft = new Point(rectangle.upperLeft.row+xOffset,rectangle.upperLeft.column+yOffset);
         this.width = rectangle.width;
         this.height = rectangle.height;
+        if(rectangle.getText() != null)
+            this.addText(new String(rectangle.getText()));
     }
     @Override
     public void draw(GraphicsContext gc)
@@ -76,7 +75,6 @@ public class Rectangle extends Graphic {
             height = 40;
         }
         //draw rectangle
-        //System.out.println("draw rectangle");
         gc.setFill(Controller.graphicColor);
         gc.strokeRect(upperLeft.row,upperLeft.column,width,height);
         gc.strokeText(this.getText(),upperLeft.row,upperLeft.column);
@@ -122,19 +120,6 @@ public class Rectangle extends Graphic {
         double d3 = Math.minDistancePointToPoint(new Point(upperLeft.row,upperLeft.column+height),point);
         double d4 = Math.minDistancePointToPoint(new Point(upperLeft.row + width,upperLeft.column+height),point);
 
-        /*
-        System.out.println("point1:"+upperLeft);
-        System.out.println("point2:"+new Point(upperLeft.row + width,upperLeft.column));
-        System.out.println("point3:"+new Point(upperLeft.row,upperLeft.column+height));
-        System.out.println("point4:"+new Point(upperLeft.row + width,upperLeft.column+height));
-        System.out.println("Mouse:" + point);
-
-        System.out.println("d1:"+d1);
-        System.out.println("d2:"+d2);
-        System.out.println("d3:"+d3);
-        System.out.println("d4:"+d4);
-        */
-
         double min = java.lang.Math.min(d1,d2);
         min = java.lang.Math.min(min,d3);
         min = java.lang.Math.min(min,d4);
@@ -150,8 +135,6 @@ public class Rectangle extends Graphic {
                 resizablePoint = 3;
             else
                 resizablePoint = 4;
-
-            //System.out.println("Can resize");
 
             return true;
         }
